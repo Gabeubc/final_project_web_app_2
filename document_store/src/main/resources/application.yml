@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: document_store
+
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
