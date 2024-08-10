@@ -36,13 +36,13 @@ class DocumentServiceImpl(
         try {
             val document = documentRepository.findById(documentDto.id!!).orElse(null)
             if (documentDto.name != null)
-                document.name = documentDto.name
+                document.name = documentDto.name!!
             if (documentDto.contentType != null)
                 document.contentType = documentDto.contentType!!
             if (documentDto.size != null)
-                document.size = documentDto.size
+                document.size = documentDto.size!!
             if (documentDto.timeStamp != null)
-                document.timeStamp = documentDto.timeStamp
+                document.timeStamp = documentDto.timeStamp!!
             if (documentDto.content != null)
                 document.document.content = documentDto.content
             documentRepository.save(documentDto.toEntity())
