@@ -7,9 +7,14 @@ import org.springframework.stereotype.Component
 @Component("GetDocumentContentCommand")
 class GetDocumentContentCommand(
     @Autowired
-    private val documentService: DocumentService,
-    private val metadataId: Long
+    private val documentService: DocumentService
 ) : Command<ByteArray> {
+
+    private var metadataId: Long = 0
+
+    fun setMetadataId(metadataId: Long) {
+        this.metadataId = metadataId
+    }
     override fun execute(): ByteArray {
         return documentService.getDocumentContentById(metadataId)!!
     }

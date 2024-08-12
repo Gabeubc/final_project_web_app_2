@@ -11,10 +11,15 @@ import java.util.*
 class GetDocumentCommand(
     @Autowired
     private val documentService: DocumentService,
-    private val metadataId: Long
 ) : Command<List<DocumentDto>>{
+
+    private var metadataId: Long = 0
+
+    fun setMetadataId(metadataId: Long) {
+        this.metadataId = metadataId
+    }
     override fun execute(): List<DocumentDto> {
-        if(GeneralConstant.EMPTY_ID.equals(metadataId)){
+        if(GeneralConstant.EMPTY_ID == metadataId){
             return documentService.getDocuments();
         }
         return listOf(documentService.getDocumentById(metadataId))

@@ -7,7 +7,7 @@ data class ContactDto(
     var name: String,
     var surname: String,
     var type: String,
-    var contactInformations: MutableSet<ContactInformationDto>
+    var contactInformationIds: MutableSet<Long>
 ): EntityBaseId<Long>(){
     fun toEntity(): Contact{
         TODO()

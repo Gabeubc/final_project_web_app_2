@@ -8,7 +8,7 @@ data class ContactInformationDto (
     val address: String?=null,
     val phoneNumber: String?=null,
     var isUpdate: Boolean,
-    val contactDtos: MutableSet<ContactDto>?=null
+    val contactIds: MutableSet<Long>?=null
 ): EntityBaseId<Long>(){
     fun toEntity(): ContactInformation{
         TODO()

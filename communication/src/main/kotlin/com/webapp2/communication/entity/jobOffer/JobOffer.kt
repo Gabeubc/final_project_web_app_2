@@ -1,6 +1,7 @@
 package com.webapp2.communication.entity.jobOffer
 
 import com.webapp2.communication.dto.jobOffer.JobOfferDto
+import com.webapp2.communication.dto.jobOffer.JobOfferStateDto
 import com.webapp2.communication.entity.contact.Contact
 import com.webapp2.communication.entity.contact.professional.Professional
 import com.webapp2.communication.entity.utils.EntityBaseId

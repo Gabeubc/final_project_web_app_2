@@ -4,7 +4,7 @@ import com.webapp2.communication.dto.contact.ContactDto
 import com.webapp2.communication.entity.utils.EntityBaseId
 
 data class SkillDto(
-    var jobOffers: MutableSet<JobOfferDto>,
+    var jobOfferIds: MutableSet<Long>,
     var name: String
 ) : EntityBaseId<Long>(){
     fun toDto(): ContactDto {

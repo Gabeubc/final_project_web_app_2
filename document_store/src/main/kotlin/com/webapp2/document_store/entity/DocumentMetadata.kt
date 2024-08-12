@@ -8,7 +8,7 @@ import jakarta.persistence.FetchType
 import jakarta.persistence.OneToOne
 import java.time.LocalDateTime
 
-@Entity(name="WA_2_DOCUMENT_METADATA")
+@Entity(name = "WA_2_DOCUMENT_METADATA")
 data class DocumentMetadata(
     @OneToOne(
         mappedBy = "metadata",
@@ -20,20 +20,29 @@ data class DocumentMetadata(
     var size: Int,
     var timeStamp: LocalDateTime,
     var contentType: String
-): EntityBaseId<Long>(){
-    fun toDto(): DocumentDto = DocumentDto(
+) : EntityBaseId<Long>() {
+    fun toDto(): DocumentDto {
+        val dto = DocumentDto(
             null,
             name,
             size,
             timeStamp,
             contentType
         )
-    fun toDtoWithContent()= DocumentDto(
-        document.content,
-        name,
-        size,
-        timeStamp,
-        contentType
-    )
+        dto.id = this.id
+        return dto
+    }
+
+    fun toDtoWithContent(): DocumentDto {
+        val dto = DocumentDto(
+            document.content,
+            name,
+            size,
+            timeStamp,
+            contentType
+        )
+        dto.id = this.id
+        return dto
+    }
 
 }

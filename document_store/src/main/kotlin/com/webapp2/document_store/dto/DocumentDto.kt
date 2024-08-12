@@ -12,14 +12,18 @@ data class DocumentDto(
     var timeStamp: LocalDateTime?=null,
     var contentType: String?=null
 ): EntityBaseId<Long>(){
-    fun toEntity(): DocumentMetadata = DocumentMetadata(
-        Document(
-            content,
-            null
-        ),
-        name!!,
-        size!!,
-        timeStamp!!,
-        contentType!!
-    )
+    fun toEntity(): DocumentMetadata{
+        val entity = DocumentMetadata(
+            Document(
+                content,
+                null
+            ),
+            name!!,
+            size!!,
+            timeStamp!!,
+            contentType!!
+        )
+        entity.document.metadata = entity
+        return entity
+    }
 }

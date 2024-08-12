@@ -8,8 +8,13 @@ import org.springframework.stereotype.Component
 class DeleteCommand(
     @Autowired
     private val documentService: DocumentService,
-    private val metadataId: Long
 ) : Command<Boolean>{
+
+    private var metadataId: Long = 0
+
+    fun setMetadataId(metadataId: Long) {
+        this.metadataId = metadataId
+    }
     override fun execute(): Boolean {
         return documentService.deleteDocumentById(metadataId)
     }
