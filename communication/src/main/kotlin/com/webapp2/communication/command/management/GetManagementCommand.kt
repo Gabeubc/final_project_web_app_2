@@ -9,10 +9,15 @@ import org.springframework.beans.factory.annotation.Autowired
 class GetCommand(
     @Autowired
     private val jobOfferService: JobOfferService,
-    private var state: String,
-    private var customerId: Long,
-    private var professionalId: Long
 ) : Command<List<JobOfferDto>> {
+    private var state: String = ""
+    private var customerId: Long = 0
+    private var professionalId: Long = 0
+        fun setGetCommand(state: String, customerId: Long, professionalId: Long){
+            this.state = state
+            this.customerId = customerId
+            this.professionalId = professionalId
+        }
     override fun execute(): List<JobOfferDto> {
         if (GeneralConstant.VALID_JOB_OFFER_STATE.contains(state)) {
             if (GeneralConstant.EMPTY_ID == professionalId && GeneralConstant.EMPTY_ID != customerId)

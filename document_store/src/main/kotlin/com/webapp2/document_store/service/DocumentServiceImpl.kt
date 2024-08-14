@@ -2,6 +2,8 @@ package com.webapp2.document_store.service
 
 import com.webapp2.document_store.dto.DocumentDto
 import com.webapp2.document_store.entity.DocumentMetadata
+import com.webapp2.document_store.exception.DocumentNotFoundException
+import com.webapp2.document_store.exception.UpdateDocumentException
 import com.webapp2.document_store.repository.DocumentContentRepository
 import com.webapp2.document_store.repository.DocumentMetadataRepository
 import jakarta.transaction.Transactional
@@ -22,12 +24,13 @@ class DocumentServiceImpl(
 
     @Transactional
     override fun getDocumentById(metadataId: Long): DocumentDto {
-        return documentRepository.findById(metadataId).map { it.toDto() }.orElse(null)
+        return documentRepository.findById(metadataId).map { it.toDto() }.orElseThrow { DocumentNotFoundException() }
     }
 
     @Transactional
     override fun getDocumentContentById(metadataId: Long): ByteArray? {
-        return documentRepository.findById(metadataId).map { it.toDtoWithContent().content }.orElse(null)
+        return documentRepository.findById(metadataId).map { it.toDtoWithContent().content }
+            .orElseThrow { DocumentNotFoundException() }
     }
 
     @Transactional
@@ -43,13 +46,14 @@ class DocumentServiceImpl(
     @Transactional
     override fun updateDocument(documentDto: DocumentDto): Boolean {
         try {
-            val document = documentRepository.findById(documentDto.id!!).orElse(null)
+            val document = documentRepository.findById(documentDto.id!!).orElseThrow { DocumentNotFoundException() }
             updateField(document, documentDto)
             documentRepository.save(document)
             return true
         } catch (e: Exception) {
-            return false
+            throw UpdateDocumentException()
         }
+        return false
     }
 
     @Transactional
@@ -58,8 +62,9 @@ class DocumentServiceImpl(
             documentRepository.deleteById(metadataId)
             return true
         } catch (e: Exception) {
-            return false
+            throw DocumentNotFoundException()
         }
+        return false
     }
 
     private fun updateField(document: DocumentMetadata, documentDto: DocumentDto) {

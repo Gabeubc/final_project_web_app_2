@@ -10,11 +10,14 @@ import org.springframework.stereotype.Component
 @Component
 class GetCommand(
     @Autowired
-    private val messageService: MessageService,
-    private val messageId: Long
+    private val messageService: MessageService
 ) : Command<MutableSet<MessageDto>> {
+    private var messageId: Long = 0L
+    fun setGetCommand(messageId: Long){
+        this.messageId = messageId
+    }
     override fun execute(): MutableSet<MessageDto> {
-        if (GeneralConstant.EMPTY_ID.equals(messageId)) {
+        if (GeneralConstant.EMPTY_ID == messageId) {
             return messageService.getMessages()
         } else {
             return mutableSetOf(messageService.getMessageById(messageId))

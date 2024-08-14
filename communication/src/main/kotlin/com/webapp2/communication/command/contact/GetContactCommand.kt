@@ -11,11 +11,15 @@ import org.springframework.stereotype.Component
 class GetCommand(
     @Autowired
     private val contactService: ContactService,
-    private val contactId: Long
 ) : Command<MutableSet<ContactDto>> {
+
+    private var contactId: Long = 0
+    fun setContactId(contactId: Long){
+        this.contactId = contactId
+    }
     override fun execute(): MutableSet<ContactDto> {
-        if (GeneralConstant.EMPTY_ID.equals(contactId)) {
-            return contactService.getContacts().map { it.toDto() }.toMutableSet()
+        if (GeneralConstant.EMPTY_ID == contactId) {
+            return contactService.getContacts().map { it }.toMutableSet()
         } else {
             return mutableSetOf(contactService.getContactById(contactId).toDto())
         }
