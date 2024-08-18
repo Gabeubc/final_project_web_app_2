@@ -1,0 +1,312 @@
+{
+    "info": {
+      "name": "CRM API",
+      "description": "Collection of API endpoints for the CRM application.",
+      "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "variable": [
+      {
+        "key": "baseUrl",
+        "value": "http://localhost:8082"
+      }
+    ],
+    "item": [
+      {
+        "name": "Contacts",
+        "item": [
+          {
+            "name": "Get All Contacts",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/API/Contacts/",
+                "host": ["{{baseUrl}}"],
+                "path": ["API", "Contacts"]
+              }
+            }
+          },
+          {
+            "name": "Get Contact by ID",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/API/Contacts/:contactId",
+                "host": ["{{baseUrl}}"],
+                "path": ["API", "Contacts", ":contactId"],
+                "variable": [
+                  {
+                    "key": "contactId",
+                    "value": "1",
+                    "type": "string"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "name": "Create Contact",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"name\": \"John\",\n  \"surname\": \"Doe\",\n  \"informations\": [\n    {\n      \"email\": \"john.doe@example.com\",\n      \"phoneNumber\": \"123-456-7890\",\n      \"address\": \"123 Main St, Anytown, USA\"\n    }\n  ]\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/API/Contacts/",
+                "host": ["{{baseUrl}}"],
+                "path": ["API", "Contacts"]
+              }
+            }
+          },
+          {
+            "name": "Add Email to Contact",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "[\"new.email@example.com\"]"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/API/Contacts/:contactId/email",
+                "host": ["{{baseUrl}}"],
+                "path": ["API", "Contacts", ":contactId", "email"],
+                "variable": [
+                  {
+                    "key": "contactId",
+                    "value": "1",
+                    "type": "string"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "name": "Delete Email from Contact",
+            "request": {
+              "method": "DELETE",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/API/Contacts/:contactId/email/:email",
+                "host": ["{{baseUrl}}"],
+                "path": ["API", "Contacts", ":contactId", "email", ":email"],
+                "variable": [
+                  {
+                    "key": "contactId",
+                    "value": "1",
+                    "type": "string"
+                  },
+                  {
+                    "key": "email",
+                    "value": "john.doe@example.com",
+                    "type": "string"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      {
+        "name": "Job Offers",
+        "item": [
+          {
+            "name": "Get All Job Offers",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/API/jobOffers",
+                "host": ["{{baseUrl}}"],
+                "path": ["API", "jobOffers"]
+              }
+            }
+          },
+          {
+            "name": "Create Job Offer",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"description\": \"Job Offer Description\",\n  \"skills\": [\n    { \"name\": \"Skill 1\" },\n    { \"name\": \"Skill 2\" }\n  ],\n  \"customer\": {\n    \"name\": \"Customer Name\",\n    \"surname\": \"Customer Surname\",\n    \"informations\": []\n  },\n  \"professional\": {\n    \"name\": \"Professional Name\",\n    \"surname\": \"Professional Surname\",\n    \"informations\": []\n  },\n  \"operator\": {\n    \"name\": \"Operator Name\",\n    \"surname\": \"Operator Surname\",\n    \"informations\": []\n  },\n  \"state\": { \"value\": \"New\" },\n  \"profitMargin\": 20.0\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/API/jobOffers",
+                "host": ["{{baseUrl}}"],
+                "path": ["API", "jobOffers"]
+              }
+            }
+          },
+          {
+            "name": "Change Job Offer State",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"value\": \"Updated State\"\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/API/jobOffers/:jobOfferId",
+                "host": ["{{baseUrl}}"],
+                "path": ["API", "jobOffers", ":jobOfferId"],
+                "variable": [
+                  {
+                    "key": "jobOfferId",
+                    "value": "1",
+                    "type": "string"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      {
+        "name": "Messages",
+        "item": [
+          {
+            "name": "Get All Messages",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/API/messages/",
+                "host": ["{{baseUrl}}"],
+                "path": ["API", "messages"]
+              }
+            }
+          },
+          {
+            "name": "Create Message",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"sender\": {\n    \"name\": \"Sender Name\",\n    \"surname\": \"Sender Surname\",\n    \"informations\": []\n  },\n  \"receivers\": [\n    {\n      \"name\": \"Receiver Name\",\n      \"surname\": \"Receiver Surname\",\n      \"informations\": []\n    }\n  ],\n  \"body\": \"Message body\",\n  \"date\": \"2023-01-01T12:00:00\",\n  \"state\": {\n    \"description\": \"Sent\",\n    \"state\": \"Delivered\"\n  }\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/API/messages/",
+                "host": ["{{baseUrl}}"],
+                "path": ["API", "messages"]
+              }
+            }
+          },
+          {
+            "name": "Get Message by ID",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/API/messages/:messageId",
+                "host": ["{{baseUrl}}"],
+                "path": ["API", "messages", ":messageId"],
+                "variable": [
+                  {
+                    "key": "messageId",
+                    "value": "1",
+                    "type": "string"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "name": "Change Message State",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"description\": \"Message Read\",\n  \"state\": \"Read\"\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/API/messages/:messageId",
+                "host": ["{{baseUrl}}"],
+                "path": ["API", "messages", ":messageId"],
+                "variable": [
+                  {
+                    "key": "messageId",
+                    "value": "1",
+                    "type": "string"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "name": "Get Message History",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/API/messages/:messageId/history",
+                "host": ["{{baseUrl}}"],
+                "path": ["API", "messages", ":messageId", "history"],
+                "variable": [
+                  {
+                    "key": "messageId",
+                    "value": "1",
+                    "type": "string"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      {
+        "name": "Professionals",
+        "item": [
+          {
+            "name": "Get All Professionals",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{baseUrl}}/API/professionals/",
+                "host": ["{{baseUrl}}"],
+                "path": ["API", "professionals"]
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+  

@@ -1,6 +1,6 @@
-package com.example.crm.entities.utils
+package com.webapp2.crm.entity.utils
 
-import com.webapp2.document_store.dto.utils.EntityBaseId
+import com.webapp2.crm.dto.utils.EntityBaseId
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.Id
 import jakarta.persistence.MappedSuperclass

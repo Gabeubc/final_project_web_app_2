@@ -1,20 +1,18 @@
-package com.webapp2.crm.entity.utils
+package com.webapp2.crm.dto.utils
 
+import com.webapp2.crm.entity.utils.EntityBaseId
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.Id
 import jakarta.persistence.MappedSuperclass
 import org.springframework.data.util.ProxyUtils
 import java.io.Serializable
 
-@MappedSuperclass
 abstract class EntityBaseId < T: Serializable> {
 
     companion object{
         val versionUID = "073a62c1-8a6d-4a1f-b7d4-9f696b42baee"
     }
 
-    @Id
-    @GeneratedValue
     var id : T? = null;
 
     override fun toString(): String {

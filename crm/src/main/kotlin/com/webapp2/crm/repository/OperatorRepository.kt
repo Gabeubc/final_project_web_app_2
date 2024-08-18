@@ -5,4 +5,4 @@ import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface OperatorRepoditory : JpaRepository<Operator, Long>
+interface OperatorRepository : JpaRepository<Operator, Long>

@@ -1,4 +1,4 @@
-package com.webapp2.document_store.command
+package com.webapp2.crm.command
 
 interface Command<Output> {
     fun execute(): Output
