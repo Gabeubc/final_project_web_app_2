@@ -1,0 +1,26 @@
+spring:
+  application:
+    name: crm
+
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+
+gmail:
+  client-id: "82217438651-eo8qisi7m11a54o5kjtrdk3c6i2245pe.apps.googleusercontent.com"
+  client-secret: "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"
+  refresh-token: "1//04wWmKNzKfSbpCgYIARAAGAQSNwF-L9Irza11ZelnNv_bjC6kiRGllt2Fmx1JoZ54GDPOM4J2ExZJFY21XIl-2EacedYdRYQEHU0"
+gmail-account:
+  application_name: "WA2 FINAL PROJECT"
+
+camel:
+  component:
+    google-mail:
+      application-name: ${gmail-account.application_name}
+      client-id: ${gmail.client-id}
+      client-secret: ${gmail.client-secret}
+      refresh-token: ${gmail.refresh-token}
+
+server:
+  port: 8083

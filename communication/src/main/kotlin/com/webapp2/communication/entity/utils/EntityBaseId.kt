@@ -1,6 +1,6 @@
-package com.webapp2.crm.entity.utils
+package com.webapp2.communication.entity.utils
 
-import com.webapp2.crm.dto.utils.EntityBaseId
+import com.webapp2.communication.dto.utils.EntityBaseId
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.Id
 import jakarta.persistence.MappedSuperclass

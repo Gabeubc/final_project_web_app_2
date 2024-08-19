@@ -1,0 +1,45 @@
+{
+	"info": {
+		"name": "Communication API",
+		"_postman_id": "unique-id-generated-by-postman",
+		"description": "Collection to test email communication APIs",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Send Email",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"sender\": \"sender@example.com\",\n\t\"receivers\": [\"receiver1@example.com\", \"receiver2@example.com\"],\n\t\"mailObject\": \"Subject of the email\",\n\t\"body\": \"This is the body of the email.\",\n\t\"file\": \"path/to/file\"\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/API/emails",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"API",
+						"emails"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8083",
+			"type": "string"
+		}
+	]
+}
