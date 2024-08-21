@@ -28,13 +28,11 @@ data class JobOffer(
         fetch = FetchType.LAZY
     )
     var customer: Customer? = null,
-    @ManyToOne(
-        fetch = FetchType.LAZY
+    @ManyToMany(
+        fetch = FetchType.LAZY,
+        cascade = [CascadeType.ALL]
     )
-    @JoinColumn(
-        nullable = true
-    )
-    var professional: Professional? = null,
+    var professionals: MutableSet<Professional>? = null,
     @ManyToOne(
         fetch = FetchType.LAZY
     )
@@ -45,6 +43,10 @@ data class JobOffer(
         cascade = [CascadeType.ALL]
     )
     var interviews: MutableSet<Interview>? = mutableSetOf(),
+    @ManyToOne(
+        fetch = FetchType.LAZY
+    )
+    var assignedTo: Professional ?= null,
     @OneToMany(
         mappedBy = "jobOffer",
         fetch = FetchType.LAZY,
@@ -65,10 +67,12 @@ data class JobOffer(
             dto.skills = skills!!.map { SkillDto(it.name) }
         if (customer != null && customer!!.contact != null)
             dto.customer = customer!!.contact!!.toDto()
-        if (professional != null && professional!!.contact != null)
-            dto.professional = professional!!.contact!!.toDto()
+        if (professionals != null)
+            dto.professional = professionals!!.map { it.contact!!.toDto() }
         if (operator != null && operator!!.contact != null)
             dto.operator = operator!!.contact!!.toDto()
+        if (assignedTo != null && assignedTo!!.contact != null)
+            dto.assignedTo = assignedTo!!.contact!!.toDto()
         dto.profitMargin = profitMargin
         dto.creationTime = creationTime
         dto.publicationTime = publicationTime

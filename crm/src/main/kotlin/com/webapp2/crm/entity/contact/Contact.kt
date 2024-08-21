@@ -56,6 +56,20 @@ data class Contact(
         dto.informations = contactInformations!!.map { it.toDto() }
         return dto
     }
+    fun toDto(id: Long?): ContactDto {
+        var dto = ContactDto()
+        dto.id = id
+        dto.name = name
+        dto.surname = surname
+        if(customer!=null)
+            dto.type = "customer"
+        if(professional!=null)
+            dto.type = "professional"
+        if(operator!=null)
+            dto.type = "operator"
+        dto.informations = contactInformations!!.map { it.toDto() }
+        return dto
+    }
 
     override fun toString(): String {
         return ""

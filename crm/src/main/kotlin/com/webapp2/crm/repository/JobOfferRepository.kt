@@ -9,5 +9,5 @@ import org.springframework.stereotype.Repository
 @Repository
 interface JobOfferRepository : JpaRepository<JobOffer, Long>{
     fun findByCustomer(customer: Customer): List<JobOffer>
-    fun findByProfessional(professional: Professional): List<JobOffer>
+    fun findByProfessionals(professionals: MutableSet<Professional>): List<JobOffer>
 }

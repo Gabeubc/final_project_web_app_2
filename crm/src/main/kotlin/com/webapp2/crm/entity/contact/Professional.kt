@@ -4,16 +4,16 @@ import com.webapp2.crm.entity.jobOffer.JobOffer
 import com.webapp2.crm.entity.utils.EntityBaseId
 import jakarta.persistence.*
 
-@Entity(name="WA2_PROFESSIONAL")
-data class Professional (
+@Entity(name = "WA2_PROFESSIONAL")
+data class Professional(
     @OneToOne(
         mappedBy = "professional",
         fetch = FetchType.LAZY,
         cascade = [CascadeType.ALL]
     )
     var contact: Contact? = null,
-    @OneToMany(
-        mappedBy = "professional",
+    @ManyToMany(
+        mappedBy = "professionals",
         fetch = FetchType.LAZY,
         cascade = [CascadeType.ALL]
     )
@@ -23,8 +23,14 @@ data class Professional (
         fetch = FetchType.LAZY,
         cascade = [CascadeType.ALL]
     )
-    var professionalState: MutableSet<ProfessionalState>? = null
-): EntityBaseId<Long>(){
+    var professionalState: MutableSet<ProfessionalState>? = null,
+    @OneToMany(
+        mappedBy = "assignedTo",
+        fetch = FetchType.LAZY,
+        cascade = [CascadeType.ALL]
+    )
+    var jobOffer: MutableSet<JobOffer>? = null
+) : EntityBaseId<Long>() {
     override fun toString(): String {
         return ""
     }

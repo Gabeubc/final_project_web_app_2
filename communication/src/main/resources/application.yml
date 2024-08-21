@@ -7,11 +7,6 @@ spring:
     hibernate:
       ddl-auto: update
 
-gmail:
-  client-id:
-  client-secret:
-  refresh-token:
-
 gmail-account:
   application_name: "WA2 FINAL PROJECT"
 

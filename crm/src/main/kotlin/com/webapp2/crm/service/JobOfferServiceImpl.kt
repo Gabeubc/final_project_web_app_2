@@ -37,7 +37,7 @@ class JobOfferServiceImpl(
     @Transactional
     override fun getJobOfferByStateAndProfessional(professionalId: Long, state: String): List<JobOfferDto> {
         val professional = professionalRepository.findById(professionalId).orElse(null)
-        val entities = jobOfferRepository.findByProfessional(professional)
+        val entities = jobOfferRepository.findByProfessionals(mutableSetOf(professional))
         return entities
             .map { it.toDto() }
             .filter { it.state!!.value == state }
