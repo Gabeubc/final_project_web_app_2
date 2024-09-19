@@ -1,12 +1,15 @@
-package com.webapp2.crm.service
+package com.webapp2.crm.service.jobOffer
 
 import com.webapp2.crm.dto.jobOffer.JobOfferDto
 import com.webapp2.crm.dto.jobOffer.JobOfferStateDto
 import com.webapp2.crm.entity.jobOffer.JobOffer
 import com.webapp2.crm.entity.jobOffer.JobOfferState
 import com.webapp2.crm.entity.skill.Skill
+import com.webapp2.crm.exception.contact.ContactNotFoundException
+import com.webapp2.crm.exception.jobOffer.ChangeJobOfferStateException
+import com.webapp2.crm.exception.jobOffer.JobOfferCreationException
+import com.webapp2.crm.exception.jobOffer.JobOfferNotFoundException
 import com.webapp2.crm.repository.*
-import com.webapp2.crm.utils.GeneralConstant
 import com.webapp2.crm.utils.GeneralConstant.Companion.CREATED
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
@@ -21,13 +24,11 @@ class JobOfferServiceImpl(
     @Autowired
     private val professionalRepository: ProfessionalRepository,
     @Autowired
-    private val operatorRepository: OperatorRepository,
-    @Autowired
     private val contactRepository: ContactRepository
 ) : JobOfferService {
     @Transactional
     override fun getJobOffersByStateAndCustomerId(customerId: Long, state: String): List<JobOfferDto> {
-        val customer = customerRepository.findById(customerId).orElse(null)
+        val customer = customerRepository.findById(customerId).orElseThrow{ContactNotFoundException()}
         val entities = jobOfferRepository.findByCustomer(customer)
         return entities
             .map { it.toDto() }
@@ -36,7 +37,7 @@ class JobOfferServiceImpl(
 
     @Transactional
     override fun getJobOfferByStateAndProfessional(professionalId: Long, state: String): List<JobOfferDto> {
-        val professional = professionalRepository.findById(professionalId).orElse(null)
+        val professional = professionalRepository.findById(professionalId).orElseThrow{ ContactNotFoundException() }
         val entities = jobOfferRepository.findByProfessionals(mutableSetOf(professional))
         return entities
             .map { it.toDto() }
@@ -59,7 +60,7 @@ class JobOfferServiceImpl(
     @Transactional
     override fun changeJobOfferState(jobOfferId: Long, jobOfferStateDto: JobOfferStateDto): Boolean {
         try {
-            val entity = jobOfferRepository.findById(jobOfferId).orElse(null)
+            val entity = jobOfferRepository.findById(jobOfferId).orElseThrow{JobOfferNotFoundException()}
             val state = JobOfferState()
             state.state = jobOfferStateDto.value
             state.jobOffer = entity
@@ -67,13 +68,14 @@ class JobOfferServiceImpl(
             jobOfferRepository.save(entity)
             return true
         } catch (e: Exception) {
+            throw ChangeJobOfferStateException()
             return false
         }
     }
 
     @Transactional
     override fun getJobOfferValue(jobOfferId: Long): Double {
-        return jobOfferRepository.findById(jobOfferId).orElse(null).value
+        return jobOfferRepository.findById(jobOfferId).orElseThrow{JobOfferNotFoundException()}.value
     }
 
     @Transactional
@@ -111,6 +113,7 @@ class JobOfferServiceImpl(
             jobOfferRepository.save(entity)
             return true
         } catch (e: Exception) {
+            throw JobOfferCreationException()
             return false
         }
     }

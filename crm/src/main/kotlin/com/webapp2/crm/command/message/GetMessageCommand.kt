@@ -2,7 +2,7 @@ package com.webapp2.crm.command.message
 
 import com.webapp2.crm.command.Command
 import com.webapp2.crm.dto.message.MessageDto
-import com.webapp2.crm.service.MessageService
+import com.webapp2.crm.service.message.MessageService
 import com.webapp2.crm.utils.GeneralConstant
 import com.webapp2.crm.utils.GeneralConstant.Companion.EMPTY_ID
 import org.springframework.beans.factory.annotation.Autowired

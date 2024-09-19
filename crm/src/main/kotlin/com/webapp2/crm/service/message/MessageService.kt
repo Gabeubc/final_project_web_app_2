@@ -1,4 +1,4 @@
-package com.webapp2.crm.service
+package com.webapp2.crm.service.message
 
 import com.webapp2.crm.dto.message.MessageDto
 import com.webapp2.crm.dto.message.MessageStateDto

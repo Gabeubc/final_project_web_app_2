@@ -2,7 +2,7 @@ package com.webapp2.crm.command.customer
 
 import com.webapp2.crm.command.Command
 import com.webapp2.crm.dto.jobOffer.JobOfferDto
-import com.webapp2.crm.service.CustomerService
+import com.webapp2.crm.service.customer.CustomerService
 import com.webapp2.crm.utils.GeneralConstant
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component

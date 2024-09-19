@@ -1,4 +1,4 @@
-package com.webapp2.crm.service
+package com.webapp2.crm.service.jobOffer
 
 import com.webapp2.crm.dto.jobOffer.JobOfferDto
 import com.webapp2.crm.dto.jobOffer.JobOfferStateDto

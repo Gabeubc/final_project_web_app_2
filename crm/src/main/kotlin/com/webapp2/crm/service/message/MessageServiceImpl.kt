@@ -1,16 +1,18 @@
-package com.webapp2.crm.service
+package com.webapp2.crm.service.message
 
 import com.webapp2.crm.dto.message.MessageDto
 import com.webapp2.crm.dto.message.MessageStateDto
 import com.webapp2.crm.entity.message.Message
 import com.webapp2.crm.entity.message.MessageState
+import com.webapp2.crm.exception.contact.ContactNotFoundException
+import com.webapp2.crm.exception.message.ChangeMessageStateException
+import com.webapp2.crm.exception.message.MessageNotFoundException
 import com.webapp2.crm.repository.ContactRepository
 import com.webapp2.crm.repository.MessageRepository
 import com.webapp2.crm.utils.GeneralConstant
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import java.time.LocalDateTime.now
 
 @Service
 class MessageServiceImpl(
@@ -26,21 +28,21 @@ class MessageServiceImpl(
 
     @Transactional
     override fun getMessageHistory(messageId: Long): List<MessageStateDto> {
-        return messageRepository.findById(messageId).orElse(null)
+        return messageRepository.findById(messageId).orElseThrow{ MessageNotFoundException() }
             .messageState!!
             .map { it.toDto() }
     }
 
     @Transactional
     override fun getMessageById(messageId: Long): MessageDto {
-        return messageRepository.findById(messageId).orElse(null).toDto()
+        return messageRepository.findById(messageId).orElseThrow{ MessageNotFoundException() }.toDto()
     }
 
     @Transactional
     override fun createMessage(messageDto: MessageDto): Boolean {
         try {
             val entity = Message()
-            val sender = contactRepository.findById(messageDto.sender!!.id!!).orElse(null)
+            val sender = contactRepository.findById(messageDto.sender!!.id!!).orElseThrow{ ContactNotFoundException() }
             val receivers = contactRepository.findAllById(messageDto.receivers!!.map { it.id }).toMutableSet()
             val messageState = MessageState()
             messageState.state = GeneralConstant.CREATED
@@ -57,6 +59,7 @@ class MessageServiceImpl(
             messageRepository.save(entity)
             return true
         } catch (e: Exception) {
+            throw MessageNotFoundException()
             return false
         }
     }
@@ -64,7 +67,7 @@ class MessageServiceImpl(
     @Transactional
     override fun changeMessageState(messageId: Long, messageStateDto: MessageStateDto): Boolean {
         try {
-            val entity = messageRepository.findById(messageId).orElse(null)
+            val entity = messageRepository.findById(messageId).orElseThrow{MessageNotFoundException()}
             val messageState = MessageState()
             messageState.state = messageStateDto.state
             messageState.description = messageStateDto.description
@@ -73,6 +76,7 @@ class MessageServiceImpl(
             messageRepository.save(entity)
             return true
         } catch (e: Exception) {
+            throw ChangeMessageStateException()
             return false
         }
     }

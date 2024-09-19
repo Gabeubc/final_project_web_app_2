@@ -1,8 +1,9 @@
-package com.webapp2.crm.service
+package com.webapp2.crm.service.customer
 
 import com.webapp2.crm.dto.contact.ContactDto
 import com.webapp2.crm.dto.jobOffer.JobOfferDto
 import com.webapp2.crm.entity.jobOffer.JobOffer
+import com.webapp2.crm.exception.contact.ContactNotFoundException
 import com.webapp2.crm.repository.CustomerRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
@@ -20,7 +21,7 @@ class CustomerServiceImpl(
     }
     @Transactional
     override fun getCustomerById(customerId: Long): ContactDto {
-        return customerRepository.findById(customerId).orElse(null).contact!!.toDto()
+        return customerRepository.findById(customerId).orElseThrow{ContactNotFoundException()}.contact!!.toDto()
     }
     @Transactional
     override fun getCustomersByNameOrSurname(value: String): List<ContactDto> {
@@ -72,7 +73,7 @@ class CustomerServiceImpl(
 
     @Transactional
     private fun getCustomerJobOffers(onlyPublished: Boolean, customerId: Long): List<JobOffer> {
-        var jobOffers = customerRepository.findById(customerId).orElse(null).jobOffers!!.toList()
+        var jobOffers = customerRepository.findById(customerId).orElseThrow{ContactNotFoundException()}.jobOffers!!.toList()
         if (onlyPublished) jobOffers = jobOffers.filter { it.publicationTime == null }
         return jobOffers
     }

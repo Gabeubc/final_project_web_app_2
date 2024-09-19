@@ -1,4 +1,4 @@
-package com.webapp2.crm.service
+package com.webapp2.crm.service.professional
 
 import com.webapp2.crm.dto.contact.ContactDto
 import com.webapp2.crm.dto.jobOffer.JobOfferDto

@@ -1,8 +1,9 @@
-package com.webapp2.crm.service
+package com.webapp2.crm.service.professional
 
 import com.webapp2.crm.dto.contact.ContactDto
 import com.webapp2.crm.dto.jobOffer.JobOfferDto
 import com.webapp2.crm.entity.jobOffer.JobOffer
+import com.webapp2.crm.exception.contact.ContactNotFoundException
 import com.webapp2.crm.repository.ProfessionalRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
@@ -19,7 +20,7 @@ class ProfessionalServiceImpl(
     }
     @Transactional
     override fun getProfessionalById(professionalId: Long): ContactDto {
-        return professionalRepository.findById(professionalId).orElse(null).contact!!.toDto()
+        return professionalRepository.findById(professionalId).orElseThrow{ ContactNotFoundException() }.contact!!.toDto()
     }
 
     @Transactional
@@ -70,7 +71,7 @@ class ProfessionalServiceImpl(
 
     @Transactional
     private fun getProfessionalJobOffers(onlyPublished: Boolean, professionalId: Long): List<JobOffer> {
-        var jobOffers = professionalRepository.findById(professionalId).orElse(null).jobOffers!!.toList()
+        var jobOffers = professionalRepository.findById(professionalId).orElseThrow{ContactNotFoundException()}.jobOffers!!.toList()
         if (onlyPublished) jobOffers = jobOffers.filter { it.publicationTime == null }
         return jobOffers
     }

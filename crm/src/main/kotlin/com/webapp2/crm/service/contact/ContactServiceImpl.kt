@@ -1,12 +1,11 @@
-package com.webapp2.crm.service
+package com.webapp2.crm.service.contact
 
 import com.webapp2.crm.dto.contact.ContactDto
 import com.webapp2.crm.entity.contact.*
+import com.webapp2.crm.exception.contact.*
 import com.webapp2.crm.repository.ContactRepository
 import com.webapp2.crm.utils.GeneralConstant.Companion.EMPTY_ID
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.data.jpa.repository.JpaRepository
-import org.springframework.stereotype.Repository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -25,7 +24,7 @@ class ContactServiceImpl(
             .asSequence()
             .map { it.customer }
             .filterNotNull()
-            .map { it!!.contact!! }
+            .map { it.contact!! }
             .map { it.toDto() }
             .toList()
     }
@@ -35,7 +34,7 @@ class ContactServiceImpl(
             .asSequence()
             .map { it.professional }
             .filterNotNull()
-            .map { it!!.contact!! }
+            .map { it.contact!! }
             .map { it.toDto() }
             .toList()
     }
@@ -45,18 +44,19 @@ class ContactServiceImpl(
             .asSequence()
             .map { it.operator }
             .filterNotNull()
-            .map { it!!.contact!! }
+            .map { it.contact!! }
             .map { it.toDto() }
             .toList()
     }
     @Transactional
     override fun getContactById(contactId: Long): ContactDto {
-        return contactRepository.findById(contactId).orElse(null).toDto()
+        return contactRepository.findById(contactId).orElseThrow{ContactNotFoundException()}.toDto()
     }
     @Transactional
     override fun createContact(contactDto: ContactDto): Long {
         try {
             val entity = Contact()
+            entity.id = contactDto.id
             entity.name = contactDto.name
             entity.surname = contactDto.surname
             val informations = contactDto
@@ -74,49 +74,49 @@ class ContactServiceImpl(
             contactRepository.save(entity)
             return entity.id!!
         } catch (e: Exception) {
-            return EMPTY_ID
+            throw ContactCreationException()
         }
     }
     @Transactional
-    override fun assignToCustomer(contactId: Long): Boolean {
+    override fun assignToCustomer(contactId: Long): Long {
         try {
-            val entity = contactRepository.findById(contactId).orElse(null)
+            val entity = contactRepository.findById(contactId).orElseThrow{ContactNotFoundException()}
             val customer = Customer()
             entity.customer = customer
             contactRepository.save(entity)
-            return true
+            return contactId
         } catch (e: Exception) {
-            return false
+            throw AssignToException()
         }
     }
     @Transactional
-    override fun assignToProfessional(contactId: Long): Boolean {
+    override fun assignToProfessional(contactId: Long): Long {
         try {
-            val entity = contactRepository.findById(contactId).orElse(null)
+            val entity = contactRepository.findById(contactId).orElseThrow{ContactNotFoundException()}
             val professional = Professional()
             entity.professional = professional
             contactRepository.save(entity)
-            return true
+            return contactId
         } catch (e: Exception) {
-            return false
+            throw AssignToException()
         }
     }
     @Transactional
-    override fun assignToOperator(contactId: Long): Boolean {
+    override fun assignToOperator(contactId: Long): Long {
         try {
-            val entity = contactRepository.findById(contactId).orElse(null)
+            val entity = contactRepository.findById(contactId).orElseThrow{ContactNotFoundException()}
             val operator = Operator()
             entity.operator = operator
             contactRepository.save(entity)
-            return true
+            return contactId
         } catch (e: Exception) {
-            return false
+            throw AssignToException()
         }
     }
     @Transactional
     override fun addEmail(contactId: Long, emails: List<String>): Boolean {
         try {
-            val entity = contactRepository.findById(contactId).orElse(null)
+            val entity = contactRepository.findById(contactId).orElseThrow{ContactNotFoundException()}
             emails
                 .forEach {
                     val informationEntityId = ContactInformationId()
@@ -128,13 +128,13 @@ class ContactServiceImpl(
             contactRepository.save(entity)
             return true
         } catch (e: Exception) {
-            return false
+            throw AddEmailException()
         }
     }
     @Transactional
     override fun deleteEmail(contactId: Long, email: String): Boolean {
         try {
-            val entity = contactRepository.findById(contactId).orElse(null)
+            val entity = contactRepository.findById(contactId).orElseThrow{ContactNotFoundException()}
             entity
                 .contactInformations!!
                 .removeIf {
@@ -143,7 +143,7 @@ class ContactServiceImpl(
             contactRepository.save(entity)
             return true
         } catch (e: Exception) {
-            return false
+            throw DeleteEmailException()
         }
     }
 }

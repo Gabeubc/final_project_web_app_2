@@ -2,7 +2,7 @@ package com.webapp2.crm.command.customer
 
 import com.webapp2.crm.command.Command
 import com.webapp2.crm.dto.contact.ContactDto
-import com.webapp2.crm.service.CustomerService
+import com.webapp2.crm.service.customer.CustomerService
 import com.webapp2.crm.utils.GeneralConstant
 import com.webapp2.crm.utils.GeneralConstant.Companion.EMPTY_ID
 import org.springframework.beans.factory.annotation.Autowired

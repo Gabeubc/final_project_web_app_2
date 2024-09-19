@@ -2,8 +2,7 @@ package com.webapp2.crm.command.professional
 
 import com.webapp2.crm.command.Command
 import com.webapp2.crm.dto.jobOffer.JobOfferDto
-import com.webapp2.crm.service.ProfessionalService
-import com.webapp2.crm.utils.GeneralConstant
+import com.webapp2.crm.service.professional.ProfessionalService
 import com.webapp2.crm.utils.GeneralConstant.Companion.EMPTY_ID
 import com.webapp2.crm.utils.GeneralConstant.Companion.EMPTY_STRING
 import org.springframework.beans.factory.annotation.Autowired

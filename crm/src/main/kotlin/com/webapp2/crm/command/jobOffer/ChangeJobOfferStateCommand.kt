@@ -2,7 +2,7 @@ package com.webapp2.crm.command.jobOffer
 
 import com.webapp2.crm.command.Command
 import com.webapp2.crm.dto.jobOffer.JobOfferStateDto
-import com.webapp2.crm.service.JobOfferService
+import com.webapp2.crm.service.jobOffer.JobOfferService
 import com.webapp2.crm.utils.GeneralConstant.Companion.EMPTY_ID
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component

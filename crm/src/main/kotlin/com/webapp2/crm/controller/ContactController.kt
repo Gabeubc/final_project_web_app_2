@@ -43,7 +43,7 @@ class ContactController(
     @PostMapping(value=[""])
     fun createContact(
         @RequestBody contactDto: ContactDto
-    ): Boolean{
+    ): Long{
         val command: CreateContactCommand = beanFactory.getBean(CreateContactCommand::class.java)
         command.setCreateContactCommand(contactDto)
         return command.execute()
